@@ -1,0 +1,20 @@
+[package]
+
+name = "waiter"
+description = "Simple waiter trait for synchronous events"
+version = "0.1.0"
+authors = ["Dmitry Tantsur <divius.inside@gmail.com>"]
+homepage = "https://github.com/dtantsur/rust-waiter"
+repository = "https://github.com/dtantsur/rust-waiter"
+documentation = "https://docs.rs/waiter"
+readme = "README.md"
+license = "MIT/Apache-2.0"
+categories = ["development-tools"]
+
+[lib]
+
+name = "waiter"
+path = "src/lib.rs"
+
+[badges]
+travis-ci = { repository = "dtantsur/rust-waiter" }
