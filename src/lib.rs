@@ -9,8 +9,8 @@
 //! The `Waiter` thread represents some action that can be polled for, and
 //! that can also fail.
 
-use std::time::{Duration, Instant};
 use std::thread::sleep;
+use std::time::{Duration, Instant};
 
 /// Trait representing a waiter for some asynchronous action to finish.
 ///
@@ -41,43 +41,56 @@ pub trait Waiter<T, E> {
     ///
     /// Consumes the `Waiter`.
     /// Returns `OperationTimedOut` if the timeout is reached.
-    fn wait(self) -> Result<T, E> where Self: Sized {
+    fn wait(self) -> Result<T, E>
+    where
+        Self: Sized,
+    {
         match self.default_wait_timeout() {
             Some(duration) => self.wait_for(duration),
-            None => self.wait_forever()
+            None => self.wait_forever(),
         }
     }
 
     /// Wait for specified amount of time.
     ///
     /// Returns `OperationTimedOut` if the timeout is reached.
-    fn wait_for(self, duration: Duration) -> Result<T, E> where Self: Sized {
+    fn wait_for(self, duration: Duration) -> Result<T, E>
+    where
+        Self: Sized,
+    {
         let delay = self.default_delay();
         self.wait_for_with_delay(duration, delay)
     }
 
     /// Wait for specified amount of time.
-    fn wait_for_with_delay(mut self, duration: Duration, delay: Duration)
-            -> Result<T, E> where Self: Sized {
+    fn wait_for_with_delay(mut self, duration: Duration, delay: Duration) -> Result<T, E>
+    where
+        Self: Sized,
+    {
         let start = Instant::now();
         while Instant::now().duration_since(start) <= duration {
             if let Some(result) = self.poll()? {
                 return Ok(result);
             };
             sleep(delay);
-        };
+        }
         Err(self.timeout_error())
     }
 
     /// Wait forever.
-    fn wait_forever(self) -> Result<T, E> where Self: Sized {
+    fn wait_forever(self) -> Result<T, E>
+    where
+        Self: Sized,
+    {
         let delay = self.default_delay();
         self.wait_forever_with_delay(delay)
     }
 
     /// Wait forever with given delay between attempts.
-    fn wait_forever_with_delay(mut self, delay: Duration)
-            -> Result<T, E> where Self: Sized {
+    fn wait_forever_with_delay(mut self, delay: Duration) -> Result<T, E>
+    where
+        Self: Sized,
+    {
         loop {
             if let Some(result) = self.poll()? {
                 return Ok(result);
