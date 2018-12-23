@@ -61,9 +61,8 @@ pub trait Waiter<T, E> {
             -> Result<T, E> where Self: Sized {
         let start = Instant::now();
         while Instant::now().duration_since(start) <= duration {
-            match self.poll()? {
-                Some(result) => return Ok(result),
-                None => ()  // continue
+            if let Some(result) = self.poll()? {
+                return Ok(result);
             };
             sleep(delay);
         };
@@ -80,9 +79,8 @@ pub trait Waiter<T, E> {
     fn wait_forever_with_delay(mut self, delay: Duration)
             -> Result<T, E> where Self: Sized {
         loop {
-            match self.poll()? {
-                Some(result) => return Ok(result),
-                None => ()  // continue
+            if let Some(result) = self.poll()? {
+                return Ok(result);
             };
             sleep(delay);
         }
