@@ -2,7 +2,7 @@
 
 name = "waiter"
 description = "Simple waiter trait for synchronous events"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Dmitry Tantsur <divius.inside@gmail.com>"]
 homepage = "https://github.com/dtantsur/rust-waiter"
 repository = "https://github.com/dtantsur/rust-waiter"
