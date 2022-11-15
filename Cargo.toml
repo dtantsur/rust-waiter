@@ -1,6 +1,7 @@
 [package]
 
 name = "waiter"
+edition = "2021"
 description = "Simple waiter trait for synchronous events"
 version = "0.1.1"
 authors = ["Dmitry Tantsur <divius.inside@gmail.com>"]
@@ -18,3 +19,7 @@ path = "src/lib.rs"
 
 [badges]
 travis-ci = { repository = "dtantsur/rust-waiter" }
+
+[dependencies]
+async-trait = "0.1.58"
+tokio = { version = "1.21.2", features = ["time"] }
